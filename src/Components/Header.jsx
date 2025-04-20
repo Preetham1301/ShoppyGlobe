@@ -30,7 +30,7 @@ const Header = () => {
                 {/* Logo section */}
                 <div className='flex items-center'>
                     {/* Logo image */}
-                    <img className='w-24' src="https://cdn.icon-icons.com/icons2/3767/PNG/512/bag_shopping_icon_231414.png" alt="logo" />
+                    <img className='w-24 rounded-full' src="https://img.freepik.com/premium-photo/stylish-3d-shopping-bag-icon-rendered-vibrant-neon-colors-perfect-websites-apps-social-media-designs_1057-197990.jpg" alt="logo" />
                     {/* Brand name */}
                     <span className='font-extrabold text-3xl text-orange-300'>
                         Shoppy <span className='text-slate-900'>Globe</span>
