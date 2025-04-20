@@ -1,6 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-/* eslint-disable no-unused-vars */
-
 // Import necessary React and third-party libraries
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -38,7 +36,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/products",
-        // Product list page
+        // Product ist page
         element: <Suspense fallback={<div className='text-3xl animate-pulse transition-all duration-200'>Loading.....</div>}>
           <ProductList />
         </Suspense>
