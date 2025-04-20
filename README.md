@@ -58,7 +58,7 @@ src/
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/ShoppyGlobe.git
+git clone https://github.com/Preetham1301/ShoppyGlobe.git
 cd ShoppyGlobe
 ```
 
