@@ -32,7 +32,7 @@ const Body = () => {
         {/* Description */}
         {/* Short description about the platform */}
         <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-          Dive into a vibrant digital bazaar where fashion, tech, and essentials meet fast shipping and secure payments. All-in-one shopping, one click away.
+          Discover a world of endless choices—shop the latest trends, must-have gadgets, and everyday essentials, all with seamless checkout and lightning-fast delivery. Your ultimate shopping destination, just a click away.
         </p>
 
         {/* Call to Action */}
@@ -86,7 +86,7 @@ const Body = () => {
       <div className="w-full lg:w-1/2 flex justify-center">
         <img
           // Hero image for the landing section
-          src="https://traffictail.com/wp-content/uploads/2024/07/Role-of-Search-History-in-Enhancing-User-Experience-on-E-commerce-Platforms-1.webp"
+          src="https://ebz-static.s3.ap-south-1.amazonaws.com/easebuzz-static/upi-credit-cards-v1.png"
           alt="Ecommerce Visual"
           className="w-[320px] md:w-[400px] h-[320px] md:h-[400px] rounded-full object-cover shadow-lg hover:scale-105 transition-all duration-300"
         />
