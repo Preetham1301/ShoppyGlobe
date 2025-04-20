@@ -4,98 +4,79 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import "./styles/Header.css"
-import "./styles/ProductList.css"
-// Display the navigation menu and shopping cart icon
+import './styles/Header.css'
+import './styles/ProductList.css'
 
 const Header = () => {
-    
+    // Get cart items from Redux store
     const cartItems = useSelector((state) => state.Products.items)
+    // State to control mobile nav visibility
     const [showNav, setShowNav] = useState(false)
+    // React Router navigation hook
     const navigate = useNavigate()
+
+    // Handles navigation and closes mobile nav
+    const handleNavClick = (path) => {
+        navigate(path)
+        setShowNav(false) // Close menu on nav
+    }
 
     return (
         <>
-            <div className='  whole-cards-container header-btn min-h-[100px] w-full border-2 flex justify-between '>
-                <div className='flex justify-center items-center whole-cards-container-2  '>
-                    <img className='w-24' src="https://cdn.icon-icons.com/icons2/3767/PNG/512/bag_shopping_icon_231414.png" alt="" />
-                    <span className='font-extrabold text-3xl text-orange-300 '>Shoppy <span className='text-slate-900'>Globe</span> </span>
+            {/* Header container */}
+            <div className='whole-cards-container header-btn min-h-[100px] w-full border-2 flex justify-between'>
+                {/* Logo section */}
+                <div className='flex items-center'>
+                    {/* Logo image */}
+                    <img className='w-24' src="https://cdn.icon-icons.com/icons2/3767/PNG/512/bag_shopping_icon_231414.png" alt="logo" />
+                    {/* Brand name */}
+                    <span className='font-extrabold text-3xl text-orange-300'>
+                        Shoppy <span className='text-slate-900'>Globe</span>
+                    </span>
                 </div>
 
-                <ul className='header-component-buttons flex gap-5 text-3xl justify-center items-center text-slate-500 '>
-                    <li className='hover:underline hover:text-orange-300 font-bold  hover:animate-none  transition-all duration-300' >
-                        <NavLink to={"/"}>Home</NavLink>
-
+                {/* Desktop navigation links (hidden on mobile) */}
+                <ul className='header-component-buttons hidden md:flex gap-5 text-3xl items-center text-slate-500'>
+                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                        <NavLink to="/">Home</NavLink>
                     </li>
-
-                    <li className='hover:underline text-slate-500  font-bold  transition-all duration-300 hover:text-orange-300'>
-                        <NavLink to={"products"}>Product</NavLink>
-
+                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                        <NavLink to="/products">Products</NavLink>
                     </li>
-
-                    {/* <li className='hover:underline text-slate-500 font-bold transition-all duration-300 hover:text-orange-300'>
-                        <NavLink to={"/"}>Login</NavLink>
-
-                    </li> */}
-
-
-                    <li className='hover:underline text-slate-500 font-bold transition-all duration-300 hover:text-orange-300'>
-                        <NavLink to={"/checkout"}>Checkout</NavLink>
-
+                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                        <NavLink to="/checkout">Checkout</NavLink>
                     </li>
-
                 </ul>
 
-                <div className='text-3xl flex-col justify-center items-center mr-5  '>
-                    <div className='header-Cart-icon  '>
-                        <p className='text-center'>{cartItems.length - 1 === -1 ? 0 : cartItems.length}</p>
-                        <button onClick={() => navigate("/cartItems")} className='' ><FontAwesomeIcon icon={faCartShopping} /></button>
-                    </div>
+                {/* Cart icon with item count */}
+                <div className='text-3xl flex items-center mr-5 relative'>
+                    <button onClick={() => navigate("/cartItems")} className='header-Cart-icon relative'>
+                        <FontAwesomeIcon icon={faCartShopping} />
+                        {/* Cart item count badge */}
+                        <span className='absolute -top-2 -right-3 text-xs bg-orange-400 text-white px-2 py-0.5 rounded-full'>
+                            {cartItems.length}
+                        </span>
+                    </button>
                 </div>
 
-
-
-
-            </div>
-            {/* header-component-buttons-all */}
-            <div className='hangBurger transition-all duration-150 '>
-                <button
-                    onClick={() => setShowNav(!showNav)}>
-                    <FontAwesomeIcon icon={faBars} />
-                </button>
+                {/* Hamburger menu for mobile */}
+                <div className='md:hidden flex items-center mr-5'>
+                    <button onClick={() => setShowNav(!showNav)} className='text-3xl'>
+                        <FontAwesomeIcon icon={faBars} />
+                    </button>
+                </div>
             </div>
 
+            {/* Mobile navigation menu (shown when showNav is true) */}
             {showNav && (
-                <div className='transition-all duration-150 '>
-                    <ul className='mobile-nav transition-all duration-150'>
-                        <li className='hover:text-orange-300  '>
-                            <NavLink to={"/"}>Home</NavLink>
-                        </li>
-
-                        <li className='hover:text-orange-300 '>
-                            <NavLink to={"/products"}>Products</NavLink>
-                        </li>
-
-
-                        {/* <li className='hover:bg-amber-500 '>
-                            <NavLink to={"/" }>Login</NavLink>
-                        </li> */}
-
-
-                        <li className='hover:text-orange-300  '>
-                            <NavLink to={"/checkout"}>Checkout</NavLink>
-                        </li>
-
-
-                    </ul>
+                <div className='mobile-nav flex flex-col items-start gap-3 px-6 py-4 bg-white shadow-md'>
+                    <button onClick={() => handleNavClick("/")} className='hover:text-orange-300'>Home</button>
+                    <button onClick={() => handleNavClick("/products")} className='hover:text-orange-300'>Products</button>
+                    <button onClick={() => handleNavClick("/checkout")} className='hover:text-orange-300'>Checkout</button>
                 </div>
             )}
-            {/* {!showNav && (
-                ""
-            )} */}
         </>
     )
 }
 
 export default Header
-

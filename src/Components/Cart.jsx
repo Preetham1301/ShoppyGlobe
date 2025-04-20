@@ -1,70 +1,79 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import CartItem from './CartItem'
-import { useNavigate } from 'react-router-dom'
-
-
-// Displays the items added to the cart with options to modify quantities or
-// remove items
+/* eslint-disable no-unused-vars */
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import CartItem from './CartItem';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  let [price, setPrice] = useState(0)
-  const cartItems = useSelector((state) => state.Products.items)
-  const navigate = useNavigate()
+  // Get cart items from Redux store
+  const cartItems = useSelector((state) => state.Products.items);
+  // Hook for navigation
+  const navigate = useNavigate();
 
-  const TotalPrice = cartItems.reduce((accumalotor, currentItem) => {
-    return accumalotor + currentItem.price * currentItem.quantity
-  }, 0)
-
-
-  useEffect(() => {
-    setPrice(TotalPrice)
-  }, [TotalPrice])
-
-
+  // Calculate total price using useMemo for optimization
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }, [cartItems]);
 
   return (
-    <>
-      <div className='grid grid-cols-1 w-auto mx-auto grid-container'>
-        <table className='table-container'>
-          {cartItems.length > 0 ? (
-            <thead className='thead-contaier'>
+    <div className="min-h-screen py-10 px-6 bg-gray-100">
+      {cartItems.length > 0 ? (
+        // If cart has items, show cart table and summary
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-700 mb-6">Your Shopping Cart</h2>
+
+          {/* Cart Items Table */}
+          <table className="w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-200 text-gray-700 text-left">
               <tr>
-                <th className=' px-4 py-2'>No.</th>
-                <th className=' px-4 py-2'>Image</th>
-                <th className='px-4 py-2'>Product Name</th>
-                <th className=' px-4 py-2'>Price</th>
-                <th className=' px-4 py-2'>Operation</th>
+                <th className="px-4 py-3">No.</th>
+                <th className="px-4 py-3">Image</th>
+                <th className="px-4 py-3">Product Name</th>
+                <th className="px-4 py-3">Price</th>
+                <th className="px-4 py-3">Operation</th>
               </tr>
             </thead>
+            <tbody>
+              {/* Render each cart item using CartItem component */}
+              {cartItems.map((item, index) => (
+                <CartItem key={item.id} CartItems={item} index={index} />
+              ))}
+            </tbody>
+          </table>
 
-          ) : ""}
-          <tbody className='tbody-container'>
-            {cartItems.length > 0 ? (
-              <>
+          {/* Total Summary Section */}
+          <div className="mt-8 flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-lg shadow-md">
+            <p className="text-lg font-semibold text-gray-700">Total Items: {cartItems.length}</p>
+            <p className="text-lg font-semibold text-gray-700">Total Amount: ₹{totalPrice.toFixed(2)}</p>
+            {/* Button to proceed to checkout */}
+            <button
+              onClick={() => navigate("/checkout")}
+              className="mt-4 md:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-bold transition duration-200"
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      ) : (
+        // If cart is empty, show empty cart state
+        <div className="flex flex-col justify-center items-center h-[80vh] text-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+            alt="Empty Cart"
+            className="w-48 h-48 mb-6 opacity-80"
+          />
+          <p className="text-4xl font-bold text-gray-600 mb-4">Your cart is empty</p>
+          {/* Button to navigate to products page */}
+          <button
+            onClick={() => navigate("/products")}
+            className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-3 rounded-full font-semibold transition duration-200"
+          >
+            Browse Products
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-                {cartItems.map((item, index) => <CartItem key={item.id} CartItems={item} index={index} />)}
-                <div className='border-none border-black min-h-[100px] w-auto  mt-5 flex justify-around items-center rounded-xl shadow-sm shadow-slate-500 mx-auto '>
-                  <p>Total Items: {cartItems.length} </p>
-                  <p>Total Amount : {price} </p>
-                  <button onClick={() => navigate("/checkout")} className='rounded-xl  bg-green-600  shadow-slate-600 px-5 py-2 font-extrabold border border-green-950 text-white hover:bg-green-800 transition-all duration-150'>Checkout</button>
-                </div>
-              </>
-            ) : (
-              <div className='products-cart h-screen w-screen flex justify-center items-center overflow-x-hidden , overflow-y-auto'>
-                <div className='flex-col mt-4 mr-10 products-cart-inside'>
-                  <p className='text-7xl text-inside-cart'>No Products in Cart</p>
-                  <button onClick={() => navigate("/products")} className='button-cart ml-56 mt-5 text-white border-none rounded-xl px-5 py-2 bg-orange-400 font-bold hover:text-slate-600 hover:bg-orange-500 shadow-md transition-all duration-200'>Browse Products</button>
-                </div>
-              </div>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-
-    </>
-  )
-}
-
-export default Cart
+export default Cart;
