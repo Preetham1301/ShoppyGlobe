@@ -10,15 +10,17 @@ import './styles/ProductList.css'
 const Header = () => {
     // Get cart items from Redux store
     const cartItems = useSelector((state) => state.Products.items)
+    
     // State to control mobile nav visibility
     const [showNav, setShowNav] = useState(false)
+
     // React Router navigation hook
     const navigate = useNavigate()
 
     // Handles navigation and closes mobile nav
     const handleNavClick = (path) => {
         navigate(path)
-        setShowNav(false) // Close menu on nav
+        setShowNav(false) // Close menu on navigation
     }
 
     return (
@@ -53,9 +55,11 @@ const Header = () => {
                     <button onClick={() => navigate("/cartItems")} className='header-Cart-icon relative'>
                         <FontAwesomeIcon icon={faCartShopping} />
                         {/* Cart item count badge */}
-                        <span className='absolute -top-2 -right-3 text-xs bg-orange-400 text-white px-2 py-0.5 rounded-full'>
-                            {cartItems.length}
-                        </span>
+                        {cartItems.length > 0 && (
+                            <span className='absolute -top-2 -right-3 text-xs bg-orange-400 text-white px-2 py-0.5 rounded-full'>
+                                {cartItems.length}
+                            </span>
+                        )}
                     </button>
                 </div>
 

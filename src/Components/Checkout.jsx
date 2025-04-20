@@ -16,13 +16,15 @@ const Checkout = () => {
     const dispatch = useDispatch();
 
     // Controlled form fields for user input
-    const [DeliveryCountry, SetDeliveryCountry] = useState('India');
-    const [Email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
-    const [City, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [CardDetails, setCardDetails] = useState('Card');
+    const [formData, setFormData] = useState({
+        DeliveryCountry: 'India',
+        Email: '',
+        address: '',
+        City: '',
+        state: '',
+        zipCode: '',
+        CardDetails: 'Card',
+    });
 
     // Calculate total price from cart items
     const prices = cartitems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -32,20 +34,28 @@ const Checkout = () => {
         SetTotalPrice(prices);
     }, [prices]);
 
+    // Handle form input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
     // Handle form submission
     const handleSubmitButton = (e) => {
         e.preventDefault();
 
         // Validate form fields
-        if (
-            !Email ||
-            !address ||
-            !City ||
-            !state ||
-            !zipCode ||
-            zipCode.length !== 6
-        ) {
+        const { Email, address, City, state, zipCode } = formData;
+        if (!Email || !address || !City || !state || !zipCode || zipCode.length !== 6) {
             toast.error('Please fill all fields correctly. ZIP code must be 6 digits.');
+            return;
+        }
+
+        if (cartitems.length === 0) {
+            toast.error('Your cart is empty. Please add items to your cart first.');
             return;
         }
 
@@ -55,13 +65,15 @@ const Checkout = () => {
         dispatch(clearCartItem());
 
         // Reset form fields
-        setEmail('');
-        setAddress('');
-        setCity('');
-        setState('');
-        setZipCode('');
-        SetDeliveryCountry('India');
-        setCardDetails('Card');
+        setFormData({
+            DeliveryCountry: 'India',
+            Email: '',
+            address: '',
+            City: '',
+            state: '',
+            zipCode: '',
+            CardDetails: 'Card',
+        });
     };
 
     return (
@@ -71,30 +83,36 @@ const Checkout = () => {
                 className='checkoutContainer shadow-2xl rounded-xl w-1/2 flex-col justify-start p-5'
             >
                 {/* Checkout title */}
-                <p className='text-5xl font-bold'>Check <span className='text-orange-300'>Out</span></p>
+                <p className='text-5xl font-bold'>
+                    Check <span className='text-orange-300'>Out</span>
+                </p>
                 {/* Display total amount */}
-                <p className='mt-2 font-medium text-lg text-gray-600'>Total Amount: ₹{TotalPrice.toFixed(2)}</p>
+                <p className='mt-2 font-medium text-lg text-gray-600'>
+                    Total Amount: ₹{TotalPrice.toFixed(2)}
+                </p>
 
                 <strong className='block mt-4'>Payment Details</strong>
 
                 {/* Delivery country selection */}
                 <label className='block mt-2'>Delivery Country</label>
                 <select
-                    value={DeliveryCountry}
-                    onChange={(e) => SetDeliveryCountry(e.target.value)}
+                    name='DeliveryCountry'
+                    value={formData.DeliveryCountry}
+                    onChange={handleInputChange}
                     className='w-full mt-1 py-3 border-2 border-orange-300 rounded-xl'
                 >
-                    <option value="India">India</option>
-                    <option value="China">China</option>
-                    <option value="Russia">Russia</option>
-                    <option value="USA">USA</option>
+                    <option value='India'>India</option>
+                    <option value='China'>China</option>
+                    <option value='Russia'>Russia</option>
+                    <option value='USA'>USA</option>
                 </select>
 
                 {/* Email input */}
                 <label className='block mt-4'>Email</label>
                 <input
-                    value={Email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name='Email'
+                    value={formData.Email}
+                    onChange={handleInputChange}
                     className='w-full mt-2 py-3 border-2 rounded-xl'
                     type='email'
                     placeholder='example@email.com'
@@ -106,8 +124,9 @@ const Checkout = () => {
                 {/* Street address input */}
                 <label className='block mt-2'>Street Address</label>
                 <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    name='address'
+                    value={formData.address}
+                    onChange={handleInputChange}
                     className='w-full mt-2 py-3 border-2 rounded-xl'
                     type='text'
                     required
@@ -116,8 +135,9 @@ const Checkout = () => {
                 {/* City input */}
                 <label className='block mt-2'>City</label>
                 <input
-                    value={City}
-                    onChange={(e) => setCity(e.target.value)}
+                    name='City'
+                    value={formData.City}
+                    onChange={handleInputChange}
                     className='w-full mt-2 py-3 border-2 rounded-xl'
                     type='text'
                     required
@@ -128,8 +148,9 @@ const Checkout = () => {
                         {/* State input */}
                         <label className='block mt-2'>State</label>
                         <input
-                            value={state}
-                            onChange={(e) => setState(e.target.value)}
+                            name='state'
+                            value={formData.state}
+                            onChange={handleInputChange}
                             className='w-full mt-2 py-3 border-2 rounded-xl'
                             type='text'
                             required
@@ -138,12 +159,13 @@ const Checkout = () => {
                         {/* ZIP code input */}
                         <label className='block mt-2'>ZIP Code</label>
                         <input
-                            value={zipCode}
-                            onChange={(e) => setZipCode(e.target.value)}
+                            name='zipCode'
+                            value={formData.zipCode}
+                            onChange={handleInputChange}
                             className='w-full mt-2 py-3 border-2 rounded-xl'
                             type='text'
-                            maxLength="6"
-                            pattern="\d{6}"
+                            maxLength='6'
+                            pattern='\d{6}'
                             required
                         />
                     </div>
@@ -152,14 +174,15 @@ const Checkout = () => {
                 {/* Payment method selection */}
                 <label className='block mt-4'>Payment Method</label>
                 <select
-                    value={CardDetails}
-                    onChange={(e) => setCardDetails(e.target.value)}
+                    name='CardDetails'
+                    value={formData.CardDetails}
+                    onChange={handleInputChange}
                     className='w-full mt-2 py-3 border-2 border-orange-300 rounded-xl'
                 >
-                    <option value="Card">Card</option>
-                    <option value="Net Banking">Net Banking</option>
-                    <option value="BitCoin">BitCoin</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value='Card'>Card</option>
+                    <option value='Net Banking'>Net Banking</option>
+                    <option value='BitCoin'>BitCoin</option>
+                    <option value='Bank Transfer'>Bank Transfer</option>
                 </select>
 
                 {/* Submit button */}
