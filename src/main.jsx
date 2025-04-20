@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import AppStore from './utilities/appStore'
