@@ -1,64 +1,77 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import './styles/ProductList.css';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AddCartItem } from '../utilities/productSlice';
 
-const ProductItem = ({ item }) => {
-  const dispatch = useDispatch(); // Get the Redux dispatch function
-  const [imageError, setImageError] = useState(false); // State to handle image loading errors
+// Fallback image in case the product image fails to load
+const fallbackImg = "https://via.placeholder.com/300x200?text=Image+Not+Available";
 
-  // Handler to dispatch an action to add the item to the cart
+const ProductItem = ({ item }) => {
+  const dispatch = useDispatch(); // Access the Redux dispatch function
+  const [imageError, setImageError] = useState(false); // State for image load error handling
+
+  // Dispatch action to add item to cart
   const handleAddToCart = () => {
     dispatch(AddCartItem(item));
   };
 
-  // Fallback image in case of error
-  const handleImageError = () => {
-    setImageError(true); // If image fails, set fallback
-  };
-
   return (
-    // Card container for the product item with enhanced hover effect
-    <div className='product-card relative border-2 bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-200 hover:scale-105 hover:shadow-xl'>
-      <div className='product-image-container'>
-        {/* Product image with error handling */}
+    // Card container for individual product
+    <div className="product-card relative bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 hover:scale-[1.02] flex flex-col justify-between">
+      
+      {/* Optional badge, could represent "New", "Sale", etc. */}
+      <span className="absolute top-3 left-3 bg-orange-400 text-white text-xs font-bold px-2 py-1 rounded shadow-sm z-10">
+        {item.category || "New"}
+      </span>
+
+      {/* Clickable image linking to product details page */}
+      <NavLink to={`/product/${item.id}`} className="relative overflow-hidden rounded-t-2xl h-48 block">
         <img
-          src={imageError ? '/path/to/fallback-image.jpg' : item.images[0]} // Fallback image
-          onError={handleImageError} // Trigger fallback on error
-          className='w-full h-44 object-cover rounded-md transform transition-transform duration-300 hover:scale-110'
-          alt={`${item.title} - Product Image`} // More descriptive alt text
+          src={imageError ? fallbackImg : item.images[0]} // Load fallback if image fails
+          onError={() => setImageError(true)} // Handle image error
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" // Smooth zoom on hover
         />
-      </div>
+        {/* Optional dark overlay on hover for style */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </NavLink>
 
-      <div className='product-details p-4'>
+      {/* Product info section: title, rating, description */}
+      <div className="flex-grow px-4 py-3 flex flex-col justify-between gap-2">
         {/* Product title */}
-        <h3 className='text-center text-slate-700 text-xl font-semibold mt-2 hover:text-orange-500'>{item.title}</h3>
-        
-        {/* Product rating */}
-        <p className='text-center text-lg text-yellow-500'>{item.rating} ⭐</p>
+        <h3 className="text-lg font-semibold text-center text-gray-800 hover:text-orange-500 transition-colors duration-200">
+          {item.title}
+        </h3>
 
-        {/* Product description, truncated to 3 lines */}
-        <p className='text-center text-slate-600 text-sm mt-2 line-clamp-3'>{item.description}</p>
+        {/* Rating with star emoji */}
+        <p className="text-center text-yellow-500 text-base">{item.rating} ⭐</p>
+
+        {/* Truncated description */}
+        <p className="text-center text-gray-600 text-sm line-clamp-3">
+          {item.description}
+        </p>
       </div>
 
-      {/* Price and action buttons */}
-      <div className='flex justify-between items-center p-4 border-t'>
+      {/* Footer section with price and action buttons */}
+      <div className="px-4 pt-2 pb-4 border-t mt-auto flex flex-col gap-3">
         {/* Product price */}
-        <p className='text-2xl text-orange-600 font-semibold'>${item.price}</p>
-        <div className='flex gap-4'>
-          {/* Add to Cart button */}
+        <div className="text-center text-xl font-bold text-orange-600">${item.price}</div>
+
+        {/* Buttons: Add to Cart and Details */}
+        <div className="flex justify-center gap-3">
+          {/* Add to Cart */}
           <button
             onClick={handleAddToCart}
-            className='px-4 py-2 bg-green-500 text-white rounded-xl font-bold shadow-md transition-all duration-300 transform hover:bg-green-600 hover:scale-105'>
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-300 hover:scale-105"
+          >
             Add to Cart
           </button>
-          
-          {/* Details button navigates to product details page */}
+
+          {/* Details button — in case user prefers clicking a button instead of the image */}
           <NavLink to={`/product/${item.id}`}>
-            <button className='px-4 py-2 bg-orange-400 text-white rounded-xl font-bold shadow-md transition-all duration-300 transform hover:bg-orange-500 hover:scale-105'>
+            <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-300 hover:scale-105">
               Details
             </button>
           </NavLink>

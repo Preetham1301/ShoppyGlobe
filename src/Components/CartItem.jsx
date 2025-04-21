@@ -1,71 +1,99 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React from 'react';
-import { useDispatch } from 'react-redux'; // Import hook to dispatch Redux actions
-import { AddCartItem, RemoveCartItem, DeleteCartItem } from '../utilities/productSlice'; // Import action creators
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome icon component
-import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AddCartItem } from '../utilities/productSlice';
 
-// CartItem component receives CartItems (single cart item object) and index as props
-const CartItem = ({ CartItems, index }) => {
-  const dispatch = useDispatch(); // Get dispatch function from Redux
+const ProductDetails = () => {
+  // Fetch the complete product list from Redux store
+  const Products = useSelector((state) => state.Products.fullItems);
+
+  // Extract product ID from route params
+  const { id } = useParams();
+
+  // Find the product that matches the ID
+  const product = Products.find((item) => item.id === Number(id));
+
+  // Redux dispatch function
+  const dispatch = useDispatch();
+
+  // Router navigation function
+  const navigate = useNavigate();
+
+  // Add current product to the cart
+  const handleAddItem = (item) => {
+    dispatch(AddCartItem(item));
+  };
+
+  // Display fallback if product not found
+  if (!product) {
+    return (
+      <div className='flex justify-center items-center h-screen text-3xl font-bold text-red-500'>
+        Product not found.
+      </div>
+    );
+  }
 
   return (
-    // Table row for displaying cart item details
-    <tr className="text-center border-b hover:bg-gray-50 transition duration-150">
-      {/* Display item index and quantity */}
-      <td className="py-4 px-2 text-gray-700 font-semibold">
-        {index + 1}. <span className="text-sm text-gray-500">({CartItems.quantity}x)</span>
-      </td>
+    <>
+      {/* Back button to navigate to Products page */}
+      <div className='flex justify-center mt-6'>
+        <button
+          onClick={() => navigate("/products")}
+          className='bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white px-6 py-2 rounded-full font-bold shadow-md transition duration-200'
+        >
+          ← Back to Products
+        </button>
+      </div>
 
-      {/* Display product image */}
-      <td className="py-4 px-2">
-        <img
-          src={CartItems.images[0]}
-          alt={CartItems.title}
-          className="w-24 h-24 object-contain mx-auto rounded-lg shadow-sm"
-        />
-      </td>
+      {/* Product Details Layout */}
+      <div className='max-w-6xl mx-auto mt-10 p-6 bg-white border rounded-2xl shadow-xl'>
 
-      {/* Display product title */}
-      <td className="py-4 px-2 text-gray-700 font-medium">{CartItems.title}</td>
+        {/* Flex layout: Image on left, details on right */}
+        <div className='flex flex-col md:flex-row items-center gap-10'>
 
-      {/* Display product price */}
-      <td className="py-4 px-2 text-green-600 font-bold">
-        ₹{CartItems.price.toFixed(2)}
-      </td>
+          {/* Product Image */}
+          <div className='w-full md:w-1/2'>
+            <img
+              src={product.images[0]}
+              alt={product.title}
+              className='w-full h-auto border-4 border-gray-100 rounded-2xl object-contain shadow-md'
+            />
+          </div>
 
-      {/* Action buttons: Delete, Add, Remove */}
-      <td className="py-4 px-2">
-        <div className="flex justify-center gap-3">
-          {/* Delete item from cart */}
-          <button
-            onClick={() => dispatch(DeleteCartItem(CartItems))}
-            className="p-2 bg-red-100 text-red-600 hover:bg-red-200 rounded-full transition"
-            title="Delete"
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
-          {/* Increase item quantity */}
-          <button
-            onClick={() => dispatch(AddCartItem(CartItems))}
-            className="p-2 bg-blue-100 text-blue-600 hover:bg-blue-200 rounded-full transition"
-            title="Add"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
-          {/* Decrease item quantity */}
-          <button
-            onClick={() => dispatch(RemoveCartItem(CartItems))}
-            className="p-2 bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded-full transition"
-            title="Remove"
-          >
-            <FontAwesomeIcon icon={faMinus} />
-          </button>
+          {/* Product Details Text */}
+          <div className='w-full md:w-1/2'>
+            <h1 className='text-4xl font-extrabold text-pink-600 text-center md:text-left mb-6'>
+              {product.title}
+            </h1>
+
+            {/* Detail items */}
+            <div className='space-y-3 text-gray-700 text-lg'>
+              <p><span className='text-indigo-600 font-bold'>Category:</span> {product.category}</p>
+              <p><span className='text-indigo-600 font-bold'>Brand:</span> {product.brand}</p>
+              <p><span className='text-indigo-600 font-bold'>Stock:</span> {product.stock}</p>
+              <p><span className='text-indigo-600 font-bold'>Price:</span> <span className='text-3xl text-amber-500 font-extrabold'>${product.price}</span></p>
+              <p><span className='text-indigo-600 font-bold'>Description:</span> {product.description}</p>
+              <p><span className='text-indigo-600 font-bold'>Return Policy:</span> {product.returnPolicy}</p>
+              <p><span className='text-indigo-600 font-bold'>Shipping Info:</span> {product.shippingInformation}</p>
+              <p><span className='text-indigo-600 font-bold'>Warranty:</span> {product.warrantyInformation}</p>
+            </div>
+
+            {/* Add to Cart Button */}
+            <div className='mt-6 text-center md:text-left'>
+              <button
+                onClick={() => handleAddItem(product)}
+                className='bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black hover:text-white px-6 py-3 rounded-full font-bold shadow-lg transition-transform duration-200 hover:scale-105'
+              >
+                🛒 Add to Cart
+              </button>
+            </div>
+          </div>
+
         </div>
-      </td>
-    </tr>
+      </div>
+    </>
   );
 };
 
-export default CartItem;
+export default ProductDetails;

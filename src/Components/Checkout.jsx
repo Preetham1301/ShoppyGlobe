@@ -77,118 +77,126 @@ const Checkout = () => {
     };
 
     return (
-        <div className='w-full flex min-h-64 justify-center scale-90'>
+        <div className="w-full flex min-h-64 justify-center scale-90">
             <form
                 onSubmit={handleSubmitButton}
-                className='checkoutContainer shadow-2xl rounded-xl w-1/2 flex-col justify-start p-5'
+                className="checkoutContainer shadow-xl rounded-2xl w-1/2 flex-col justify-start p-6 bg-gradient-to-b from-white via-slate-100 to-slate-200"
             >
                 {/* Checkout title */}
-                <p className='text-5xl font-bold'>
-                    Check <span className='text-orange-300'>Out</span>
+                <p className="text-5xl font-extrabold text-gray-800">
+                    Check <span className="text-orange-400">Out</span>
                 </p>
+
                 {/* Display total amount */}
-                <p className='mt-2 font-medium text-lg text-gray-600'>
+                <p className="mt-2 font-medium text-lg text-gray-600">
                     Total Amount: ₹{TotalPrice.toFixed(2)}
                 </p>
 
-                <strong className='block mt-4'>Payment Details</strong>
+                <strong className="block mt-4 text-lg text-gray-700">Payment Details</strong>
 
                 {/* Delivery country selection */}
-                <label className='block mt-2'>Delivery Country</label>
+                <label className="block mt-2 text-gray-600">Delivery Country</label>
                 <select
-                    name='DeliveryCountry'
+                    name="DeliveryCountry"
                     value={formData.DeliveryCountry}
                     onChange={handleInputChange}
-                    className='w-full mt-1 py-3 border-2 border-orange-300 rounded-xl'
+                    className="w-full mt-1 py-3 border-2 border-orange-400 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
                 >
-                    <option value='India'>India</option>
-                    <option value='China'>China</option>
-                    <option value='Russia'>Russia</option>
-                    <option value='USA'>USA</option>
+                    <option value="India">India</option>
+                    <option value="China">China</option>
+                    <option value="Russia">Russia</option>
+                    <option value="USA">USA</option>
+                    <option value="Korea">Korea</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Africa">Africa</option>
                 </select>
 
                 {/* Email input */}
-                <label className='block mt-4'>Email</label>
+                <label className="block mt-4 text-gray-600">Email</label>
                 <input
-                    name='Email'
+                    name="Email"
                     value={formData.Email}
                     onChange={handleInputChange}
-                    className='w-full mt-2 py-3 border-2 rounded-xl'
-                    type='email'
-                    placeholder='example@email.com'
+                    className="w-full mt-2 py-3 px-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
+                    type="email"
+                    placeholder="example@email.com"
                     required
                 />
 
-                <strong className='block mt-4'>Shipping Address</strong>
+                <strong className="block mt-4 text-lg text-gray-700">Shipping Address</strong>
 
                 {/* Street address input */}
-                <label className='block mt-2'>Street Address</label>
+                <label className="block mt-2 text-gray-600">Street Address</label>
                 <input
-                    name='address'
+                    name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className='w-full mt-2 py-3 border-2 rounded-xl'
-                    type='text'
+                    className="w-full mt-2 py-3 px-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
+                    type="text"
+                    placeholder="Enter your street address"
                     required
                 />
 
                 {/* City input */}
-                <label className='block mt-2'>City</label>
+                <label className="block mt-2 text-gray-600">City</label>
                 <input
-                    name='City'
+                    name="City"
                     value={formData.City}
                     onChange={handleInputChange}
-                    className='w-full mt-2 py-3 border-2 rounded-xl'
-                    type='text'
+                    className="w-full mt-2 py-3 px-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
+                    type="text"
+                    placeholder="Enter your city"
                     required
                 />
 
-                <div className='flex space-x-4'>
-                    <div className='w-full'>
+                <div className="flex space-x-4">
+                    <div className="w-full">
                         {/* State input */}
-                        <label className='block mt-2'>State</label>
+                        <label className="block mt-2 text-gray-600">State</label>
                         <input
-                            name='state'
+                            name="state"
                             value={formData.state}
                             onChange={handleInputChange}
-                            className='w-full mt-2 py-3 border-2 rounded-xl'
-                            type='text'
+                            className="w-full mt-2 py-3 px-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
+                            type="text"
+                            placeholder="Enter your state"
                             required
                         />
 
                         {/* ZIP code input */}
-                        <label className='block mt-2'>ZIP Code</label>
+                        <label className="block mt-2 text-gray-600">ZIP Code</label>
                         <input
-                            name='zipCode'
+                            name="zipCode"
                             value={formData.zipCode}
                             onChange={handleInputChange}
-                            className='w-full mt-2 py-3 border-2 rounded-xl'
-                            type='text'
-                            maxLength='6'
-                            pattern='\d{6}'
+                            className="w-full mt-2 py-3 px-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
+                            type="text"
+                            maxLength="6"
+                            pattern="\d{6}"
+                            placeholder="Enter 6-digit ZIP code"
                             required
                         />
                     </div>
                 </div>
 
                 {/* Payment method selection */}
-                <label className='block mt-4'>Payment Method</label>
+                <label className="block mt-4 text-gray-600">Payment Method</label>
                 <select
-                    name='CardDetails'
+                    name="CardDetails"
                     value={formData.CardDetails}
                     onChange={handleInputChange}
-                    className='w-full mt-2 py-3 border-2 border-orange-300 rounded-xl'
+                    className="w-full mt-2 py-3 px-4 border-2 border-orange-400 rounded-xl focus:ring-2 focus:ring-orange-500 transition-all shadow-md"
                 >
-                    <option value='Card'>Card</option>
-                    <option value='Net Banking'>Net Banking</option>
-                    <option value='BitCoin'>BitCoin</option>
-                    <option value='Bank Transfer'>Bank Transfer</option>
+                    <option value="Card">Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="BitCoin">BitCoin</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
                 </select>
 
                 {/* Submit button */}
                 <button
-                    type='submit'
-                    className='w-full mt-6 py-3 rounded-2xl bg-orange-300 text-white font-bold transition-all duration-200 hover:text-slate-700 hover:bg-orange-400'
+                    type="submit"
+                    className="w-full mt-6 py-3 rounded-2xl bg-gradient-to-r from-green-400 to-green-500 text-white font-bold transition-all duration-300 hover:bg-green-600 hover:scale-105"
                 >
                     Submit
                 </button>

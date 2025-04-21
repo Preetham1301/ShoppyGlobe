@@ -39,20 +39,20 @@ const Header = () => {
 
                 {/* Desktop navigation links (hidden on mobile) */}
                 <ul className='header-component-buttons hidden md:flex gap-5 text-3xl items-center text-slate-500'>
-                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                    <li className='hover:underline font-bold hover:text-blue-700 transition-all'>
                         <NavLink to="/">Home</NavLink>
                     </li>
-                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                    <li className='hover:underline font-bold hover:text-red-700 transition-all'>
                         <NavLink to="/products">Products</NavLink>
                     </li>
-                    <li className='hover:underline font-bold hover:text-orange-300 transition-all'>
+                    <li className='hover:underline font-bold hover:text-orange-700 transition-all'>
                         <NavLink to="/checkout">Checkout</NavLink>
                     </li>
                 </ul>
 
                 {/* Cart icon with item count */}
                 <div className='text-3xl flex items-center mr-5 relative'>
-                    <button onClick={() => navigate("/cartItems")} className='header-Cart-icon relative'>
+                    <button onClick={() => navigate("/cartItems")} className='text-purple-500 header-Cart-icon relative hover:text-gray-950'>
                         <FontAwesomeIcon icon={faCartShopping} />
                         {/* Cart item count badge */}
                         {cartItems.length > 0 && (
