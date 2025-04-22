@@ -15,7 +15,7 @@ const NotFound = () => {
         transition={{ duration: 0.5 }}
         className="text-[120px] md:text-[150px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400 drop-shadow-sm"
       >
-        404
+        404  
       </motion.h1>
 
       {/* Headline */}

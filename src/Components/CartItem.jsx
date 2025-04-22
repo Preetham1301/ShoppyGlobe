@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CartItem = ({ CartItems, index }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
 
   return (
     <tr className="text-center border-b hover:bg-gray-50 transition duration-150">

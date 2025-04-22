@@ -16,7 +16,7 @@ const ProductItem = ({ item }) => {
   const handleAddToCart = () => {
     dispatch(AddCartItem(item));
   };
-
+  
   return (
     // Card container for individual product
     <div className="product-card relative bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 hover:scale-[1.02] flex flex-col justify-between">

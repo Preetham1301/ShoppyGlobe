@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-// Import FontAwesome icons for use in buttons
+// Import FontAwesome icons for use in buttons  
 import { faEnvelope, faPhone, faLink } from '@fortawesome/free-solid-svg-icons';
 // Import FontAwesomeIcon component to render icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

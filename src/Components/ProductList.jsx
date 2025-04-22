@@ -14,7 +14,7 @@ const ProductList = () => {
   // Using custom hook to fetch data from the API
   const { data, error, loading } = UseFetch('https://dummyjson.com/products'); 
 
-  // Redux dispatch function to update global state
+  // Redux dispatch function to update global state  
   const dispatch = useDispatch(); 
 
   useEffect(() => {

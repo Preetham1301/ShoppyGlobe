@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Lazy load components for code splitting and performance optimization
 const App = lazy(() => import("./Components/App"))
-const Body = lazy(() => import("./Components/Body"))
+const Body = lazy(() => import("./Components/Body"))  
 const ProductList = lazy(() => import("./Components/ProductList"))
 const ProductDetails = lazy(() => import("./Components/ProductDetails"))
 const Cart = lazy(() => import("./Components/Cart"))

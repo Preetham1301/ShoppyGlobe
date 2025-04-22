@@ -14,7 +14,7 @@ const ProductDetails = () => {
   // Get the dispatch function from Redux
   const dispatch = useDispatch()
   // Get the navigate function from React Router
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
 
   // Handler to add the product to the cart
   const handleAddItem = (item) => {

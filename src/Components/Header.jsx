@@ -10,7 +10,7 @@ import './styles/ProductList.css'
 const Header = () => {
     // Get cart items from Redux store
     const cartItems = useSelector((state) => state.Products.items)
-    
+     
     // State to control mobile nav visibility
     const [showNav, setShowNav] = useState(false)
 

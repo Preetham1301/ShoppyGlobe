@@ -12,7 +12,7 @@ const Checkout = () => {
     // Get cart items from Redux store
     const cartitems = useSelector((state) => state.Products.items);
 
-    // Get dispatch function from Redux
+    // Get dispatch function from Redux  
     const dispatch = useDispatch();
 
     // Controlled form fields for user input
